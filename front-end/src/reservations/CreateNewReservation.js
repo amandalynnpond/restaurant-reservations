@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from "react";
 import {useHistory} from "react-router-dom";
-import { listReservations } from "../../utils/api";
-import ErrorAlert from "../../layout/ErrorAlert";
+import { createReservation } from "../utils/api";
 
 /**
  * Defines the dashboard page.
@@ -17,11 +16,13 @@ function CreateNewReservation(){
     first_name: "",
     last_name: "",
     mobile_number: "",
-    date: "",
-    time: "",
+    reservation_date: "",
+    reservation_time: "",
+    people: "",
   }
 
   const [formData, setFormData] = useState({...initialFormState})
+  const [error, setError] = useState(undefined)
 
   const handleChange = ({target}) => {
     const value = target.value
@@ -32,9 +33,17 @@ function CreateNewReservation(){
   }
 
   const handleSubmit = async (event) => {
-    event.preventDefault()
-    history.push("/dashboard")
-  }
+    event.preventDefault();
+    const abortController = new AbortController();
+    try {
+      await createReservation(formData, abortController.signal);
+      history.push(`/dashboard?date=${formData.reservation_date}`);
+    } catch (error) {
+      setError([error]);
+    }
+
+    return () => abortController.abort();
+  };
   
     return (
       <main>
@@ -54,7 +63,7 @@ function CreateNewReservation(){
                         value={formData.first_name}
                     />
                 </label>
-                <label htmlFor="lastName">
+                <label htmlFor="last_name">
                     Last Name
                     <input
                         id="last_name"
@@ -66,9 +75,7 @@ function CreateNewReservation(){
                         value={formData.last_name}
                     />
                 </label>
-              </div>
-              <div className="form-group">
-                <label htmlFor="mobileNumber">
+                <label htmlFor="mobile_number">
                     Phone
                     <input
                         id="mobile_number"
@@ -80,35 +87,50 @@ function CreateNewReservation(){
                         value={formData.mobile_number}
                     />
                 </label>
-                <label htmlFor="date">
+              </div>
+              <div className="form-group">
+                <label htmlFor="reservation_date">
                     Date
                     <input
-                        id="date"
+                        id="reservation_date"
                         type="date"
-                        name="date"
+                        name="reservation_date"
                         placeholder="YYYY-MM-DD"
                         pattern="\d{4}-\d{2}-\d{2}"
                         className="form-control"
                         onChange={handleChange}
-                        value={formData.date}
+                        value={formData.reservation_date}
                     />
                 </label>
-                <label htmlFor="time">
+                <label htmlFor="reservation_time">
                     Time 
                     <input
-                        id="time"
+                        id="reservation_time"
                         type="time"
-                        name="time"
+                        name="reservation_time"
                         placeholder="HH:MM"
                         pattern="[0-9]{2}:[0-9]{2}"
                         className="form-control"
                         onChange={handleChange}
-                        value={formData.time}
+                        value={formData.reservation_time}
                     />
+                </label>
+                <label htmlFor="people">
+                  Number of Guests
+                  <input 
+                    id="people"
+                    type="text"
+                    name="people"
+                    placeholder="1"
+                    pattern="[0-9]*"
+                    className="form-control"
+                    onChange={handleChange}
+                    value={formData.people}
+                  />
                 </label>
               </div>
               <div className="form-group">
-                <button type="button" className="btn btn-info">Submit</button>
+                <button type="submit" className="btn btn-info">Submit</button>
                 <button type="button" className="btn btn-secondary" onClick={() => history.goBack()}>Cancel</button>
               </div>
             </form>
