@@ -1,6 +1,8 @@
-import React, {useState, useEffect} from "react";
+import React, {useState} from "react";
 import {useHistory} from "react-router-dom";
 import { createReservation } from "../utils/api";
+import ErrorAlert from "../layout/ErrorAlert";
+import ReservationErrors from "./ReservationErrors";
 
 /**
  * Defines the dashboard page.
@@ -22,7 +24,7 @@ function CreateNewReservation(){
   }
 
   const [formData, setFormData] = useState({...initialFormState})
-  const [error, setError] = useState(undefined)
+  const [error, setError] = useState(null)
 
   const handleChange = ({target}) => {
     const value = target.value
@@ -35,15 +37,19 @@ function CreateNewReservation(){
   const handleSubmit = async (event) => {
     event.preventDefault();
     const abortController = new AbortController();
-    try {
-      await createReservation(formData, abortController.signal);
-      history.push(`/dashboard?date=${formData.reservation_date}`);
-    } catch (error) {
-      setError([error]);
+    const reservationErrors = ReservationErrors(formData)
+    if (reservationErrors.length){
+      setError(reservationErrors)
+    } else {
+      try {
+        await createReservation(formData, abortController.signal);
+        history.push(`/dashboard?date=${formData.reservation_date}`);
+      } catch (err) {
+        setError([err.message]);
+      }
+      return () => abortController.abort();
     }
-
-    return () => abortController.abort();
-  };
+  }
   
     return (
       <main>
@@ -69,7 +75,7 @@ function CreateNewReservation(){
                         id="last_name"
                         type="text"
                         name="last_name"
-                        placeHolder="Last Name"
+                        placeholder="Last Name"
                         className="form-control"
                         onChange={handleChange}
                         value={formData.last_name}
@@ -134,6 +140,7 @@ function CreateNewReservation(){
                 <button type="button" className="btn btn-secondary" onClick={() => history.goBack()}>Cancel</button>
               </div>
             </form>
+            <ErrorAlert error={error} />
       </main>
     );
   }

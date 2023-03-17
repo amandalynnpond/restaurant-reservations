@@ -5,6 +5,7 @@ import { previous, today, next } from "../utils/date-time";
 import useQuery from "../utils/useQuery";
 import ErrorAlert from "../layout/ErrorAlert";
 import ReservationList from "../reservations/ReservationList"
+import moment from "moment/moment";
 
 /**
  * Defines the dashboard page.
@@ -32,10 +33,12 @@ function Dashboard({ date }) {
     return () => abortController.abort();
   }
 
+
+
   return (
     <main>
       <h1>Dashboard</h1>
-      <h4 className="mb-0">Reservations for {date} </h4>
+      <h4 className="mb-0">Reservations for {moment(date).format('dddd, MMMM Do YYYY')} </h4>
       <div className="d-md-flex mb-3">
         <button type="button" className="btn btn-secondary" onClick={() => history.push(`/dashboard?date=${previous(date)}`)}>Previous</button>
         <button type="button" className="btn btn-secondary" onClick={() => history.push(`/dashboard?date=${today(date)}`)}>Today</button>

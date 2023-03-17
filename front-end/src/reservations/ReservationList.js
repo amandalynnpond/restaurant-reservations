@@ -1,7 +1,5 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
 import ReservationCard from "./ReservationCard"
-import { listReservations } from "../utils/api";
-import ErrorAlert from "../layout/ErrorAlert"
 
 function ReservationList({reservations}){
 
