@@ -9,14 +9,19 @@ import React from "react";
  */
 
 function ErrorAlert({ error }) {
-  if (error.length > 1){
-    error = error.map((err) => <div>{err}</div>)
+  if (error) {
+    if (error.length > 1){
+      error = error.map((err) => <div>{err}</div>)
+    }
+    return (
+      error && (
+        <div className="alert alert-danger m-2">Error: {error}</div>
+      )
+    );
   }
   return (
-    error && (
-      <div className="alert alert-danger m-2">Error: {error}</div>
-    )
-  );
+    <div></div>
+  )
 }
 
 export default ErrorAlert;
