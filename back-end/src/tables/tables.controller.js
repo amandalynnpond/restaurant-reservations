@@ -2,7 +2,7 @@ const tablesService = require("./tables.service")
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary")
 
 async function tableExists(req, res, next){
-    const table = await tablesService.read(req.params.tableId)
+    const table = await tablesService.read(req.params.table_id)
     if (table){
         res.locals.table = table
         return next()
@@ -42,6 +42,15 @@ async function tableExists(req, res, next){
     res.status(201).json({ data });
   }
 
+  async function update(req, res) {
+    const { reservation_id } = req.body.data;
+    const data = await tablesService.update(
+      reservation_id,
+      res.locals.table.table_id
+    );
+    res.status(200).json({ data });
+  }
+
   module.exports = {
     read: [
         tableExists,
@@ -53,4 +62,8 @@ async function tableExists(req, res, next){
         bodyDataHas("capacity"),
         asyncErrorBoundary(create)
     ],
+    update: [
+      tableExists,
+      update,
+    ]
   }
