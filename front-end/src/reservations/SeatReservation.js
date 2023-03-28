@@ -2,19 +2,17 @@ import moment from "moment";
 import React, {useState, useEffect} from "react";
 import { useParams, useHistory } from "react-router";
 import { listTables, readReservation, seatTable } from "../utils/api";
+import SeatingErrors from "./SeatingErrors";
+import ErrorAlert from "../layout/ErrorAlert";
 
 function SeatReservation(){
 
     const [reservation, setReservation] = useState([])
     const [tables, setTables] = useState([])
     const [tableId, setTableId] = useState('')
-    const [error, setError] = useState(undefined)
     const {reservationId} = useParams()
     const history = useHistory()
-
-    const initialFormState = {
-        table: ""
-      }
+    const [error, setError] = useState(null)
 
     useEffect(() => {
         const abortController = new AbortController()
@@ -33,13 +31,18 @@ function SeatReservation(){
     const handleSubmit = async (event) => {
         event.preventDefault()
         const abortController = new AbortController()
-        try {
-            await seatTable(tableId, reservation.reservation_id, abortController.signal)
-            history.push(`/dashboard`)
-        } catch (err) {
-            setError([err.message])
+        const seatingErrors = SeatingErrors(reservation, tableId)
+        if (seatingErrors.length){
+            setError(seatingErrors)
+        } else {
+            try {
+                await seatTable(tableId, reservation.reservation_id, abortController.signal)
+                history.push(`/dashboard`)
+            } catch (err) {
+                setError([err.message])
+            }
+            return () => abortController.abort
         }
-        return () => abortController.abort
     }
 
     return (
@@ -64,6 +67,7 @@ function SeatReservation(){
                 <button type="submit" className="btn btn-info">Submit</button>
                 <button type="button" className="btn btn-secondary" onClick={() => history.goBack()}>Cancel</button>
             </form>
+            <ErrorAlert error={error} />
         </article>
     )
 }

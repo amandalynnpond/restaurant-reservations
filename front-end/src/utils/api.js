@@ -58,8 +58,9 @@ async function fetchJson(url, options, onCancel) {
  *  a promise that resolves to a possibly empty array of reservation saved in the database.
  */
 
-export async function readReservation(reservationId, signal){
-  const url = `${API_BASE_URL}/reservations/${reservationId}/seat`
+//RESERVATIONS
+export async function readReservation(reservation_id, signal){
+  const url = `${API_BASE_URL}/reservations/${reservation_id}/seat`
   return await fetchJson(url, { signal }, {})
 }
 
@@ -84,6 +85,12 @@ export async function createReservation(formData, signal) {
   return await fetchJson(url, options, formData);
 }
 
+//TABLES
+export async function readTable(table_id, signal){
+  const url = `${API_BASE_URL}/tables/${table_id}/seat`
+  return await fetchJson(url, { signal }, {})
+}
+
 export async function createTable(formData, signal) {
   const url = `${API_BASE_URL}/tables`;
   const options = {
@@ -100,6 +107,7 @@ export async function listTables(signal) {
   return await fetchJson(url, { headers, signal }, []);
 }
 
+//SEATING/CLEARING TABLES AND RESERVATIONS
 export async function seatTable(table_id, reservation_id, signal) {
   const url = `${API_BASE_URL}/tables/${table_id}/seat`;
   return await fetchJson(

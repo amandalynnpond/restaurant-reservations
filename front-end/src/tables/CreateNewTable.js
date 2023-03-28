@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import {useHistory} from "react-router-dom";
 import { createTable } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
+import TableErrors from "./TableErrors";
 
 function CreateNewTable(){
 
@@ -25,6 +26,10 @@ function CreateNewTable(){
   const handleSubmit = async (event) => {
     event.preventDefault();
     const abortController = new AbortController();
+    const tableErrors = TableErrors(formData)
+    if (tableErrors.length){
+      setError(tableErrors)
+    } else {
       try {
         await createTable(formData, abortController.signal);
         history.push("/dashboard");
@@ -32,6 +37,7 @@ function CreateNewTable(){
         setError([err.message]);
       }
       return () => abortController.abort();
+    }
   }
 
     return(

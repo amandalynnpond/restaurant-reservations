@@ -11,7 +11,7 @@ import React from "react";
 function ErrorAlert({ error }) {
   if (error) {
     if (error.length > 1){
-      error = error.map((err) => <div>{err}</div>)
+      error = error.map((err) => <div key={err}>{err}</div>)
     }
     return (
       error && (

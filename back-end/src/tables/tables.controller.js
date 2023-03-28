@@ -35,6 +35,24 @@ async function tableExists(req, res, next){
     }
   }
 
+  function tableHasValidProperties(req, res, next){
+    const { data = {} } = req.body
+    const tableName = data.table_name
+    const tableCapacity = parseInt(data.capacity)
+    if (tableName.length < 2){
+      next({
+        status: 400,
+        message: `Table name must be at least two characters long.`
+      })
+    } else if (tableCapacity === 0 || tableCapacity < 1){
+      next({
+        status: 400,
+        message: `Table capacity must be at least one.`
+      })
+    }
+    return next()
+  }
+
   async function create(req, res) {
     let table = req.body.data;
     table = { ...table};
@@ -58,6 +76,7 @@ async function tableExists(req, res, next){
     ],
     list: [asyncErrorBoundary(list)],
     create: [
+        tableHasValidProperties,
         bodyDataHas("table_name"),
         bodyDataHas("capacity"),
         asyncErrorBoundary(create)

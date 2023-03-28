@@ -49,8 +49,8 @@ function Dashboard({ date }) {
         <button type="button" className="btn btn-secondary" onClick={() => history.push(`/dashboard?date=${next(date)}`)}>Next</button>
       </div>
       <ErrorAlert error={reservationsError} />
-      <ReservationList key={reservations} reservations={reservations} />
-      <TableList key={tables} tables={tables} />
+      <ReservationList reservations={reservations} />
+      <TableList tables={tables} />
     </main>
   );
 }
