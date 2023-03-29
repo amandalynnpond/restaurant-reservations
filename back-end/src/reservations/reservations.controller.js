@@ -65,7 +65,7 @@ function validateReservationTime(req, res, next){
       status: 400,
       message: `Please choose a time before 10:30AM.`
     })
-  } else if (reservationHour > 21 || (reservation === 21 && reservationMinute > 30)){
+  } else if (reservationHour > 21 || (reservationHour === 21 && reservationMinute > 30)){
     next({
       status: 400,
       message: `Please choose a time before 9:30PM.`
@@ -73,6 +73,7 @@ function validateReservationTime(req, res, next){
   }
   return next()
 }
+
 
 async function create(req, res) {
   let reservation = req.body.data;

@@ -2,7 +2,6 @@ import moment from "moment";
 import React, {useState, useEffect} from "react";
 import { useParams, useHistory } from "react-router";
 import { listTables, readReservation, seatTable } from "../utils/api";
-import SeatingErrors from "./SeatingErrors";
 import ErrorAlert from "../layout/ErrorAlert";
 
 function SeatReservation(){
@@ -13,6 +12,8 @@ function SeatReservation(){
     const {reservationId} = useParams()
     const history = useHistory()
     const [error, setError] = useState(null)
+    const SeatingErrors = []
+
 
     useEffect(() => {
         const abortController = new AbortController()
@@ -20,6 +21,9 @@ function SeatReservation(){
         .then(setReservation)
         .catch(setError)
         listTables(abortController.signal)
+        .then(result => result.filter(table => {
+            return (table.reservation_id === null)
+        }))
         .then(setTables)
         return () => abortController.abort
     }, [reservationId])
@@ -31,9 +35,10 @@ function SeatReservation(){
     const handleSubmit = async (event) => {
         event.preventDefault()
         const abortController = new AbortController()
-        const seatingErrors = SeatingErrors(reservation, tableId)
-        if (seatingErrors.length){
-            setError(seatingErrors)
+        const selectedTable = tables.find(table => table.table_id === Number(tableId))
+        if (selectedTable.capacity < reservation.people){
+            SeatingErrors.push("Please choose table that can handle party size.")
+            setError(SeatingErrors)
         } else {
             try {
                 await seatTable(tableId, reservation.reservation_id, abortController.signal)
