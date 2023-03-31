@@ -14,7 +14,7 @@ router.route("/")
     .all(methodNotAllowed)
 
 router.route("/:reservationId/seat")
-    .get(controller.read)
+    .get(controller.readReservation)
     .all(methodNotAllowed)
 
 module.exports = router;

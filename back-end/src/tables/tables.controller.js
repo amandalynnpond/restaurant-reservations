@@ -1,5 +1,6 @@
 const tablesService = require("./tables.service")
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary")
+const reservationService = require("../reservations/reservations.service")
 
 async function tableExists(req, res, next){
     const table = await tablesService.read(req.params.table_id)
@@ -11,15 +12,6 @@ async function tableExists(req, res, next){
         status: 404,
         message: `Table does not exist.`
     })
-  }
-
-  async function read(req, res, next){
-    res.json({ data: res.locals.table })
-  }
-
-  async function list(req, res){
-    const data = await tablesService.list()
-    res.json({data})
   }
 
   function bodyDataHas(propertyName){
@@ -53,6 +45,33 @@ async function tableExists(req, res, next){
     return next()
   }
 
+  async function seatingReservationValidation(req, res, next){
+    const { reservation_id } = req.body.data
+    const table = res.locals.table
+    const reservation = await reservationService.read(reservation_id)
+    if (reservation.people > table.capacity){
+      next({
+        status: 400,
+        message: `Please choose a table that can handle party size.`
+      })
+    } else if (table.reservation_id != null){
+      next({
+        status: 400,
+        message: `Table is already occupied.`
+      })
+    }
+    return next()
+  }
+
+  async function read(req, res, next){
+    res.json({ data: res.locals.table })
+  }
+
+  async function list(req, res){
+    const data = await tablesService.list()
+    res.json({data})
+  }
+
   async function create(req, res) {
     let table = req.body.data;
     table = { ...table};
@@ -64,7 +83,7 @@ async function tableExists(req, res, next){
     const { reservation_id } = req.body.data;
     const data = await tablesService.update(
       reservation_id,
-      res.locals.table.table_id
+      reservation_id
     );
     res.status(200).json({ data });
   }
@@ -83,6 +102,7 @@ async function tableExists(req, res, next){
     ],
     update: [
       tableExists,
+      asyncErrorBoundary(seatingReservationValidation),
       update,
     ]
   }
