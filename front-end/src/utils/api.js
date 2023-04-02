@@ -121,3 +121,15 @@ export async function seatTable(table_id, reservation_id, signal) {
     []
   );
 }
+
+export async function clearTable(table_id, signal){
+  const url = `${API_BASE_URL}/tables/${table_id}/seat`;
+  return await fetchJson(
+    url,
+    {
+      headers,
+      method: "DELETE",
+      signal,
+    }
+  )
+}

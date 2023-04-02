@@ -28,9 +28,18 @@ function create(table) {
       .then((result) => result[0])
   }
 
+  function clear(table_id){
+    return knex("tables")
+      .select("*")
+      .where({table_id})
+      .update("reservation_id", null)
+      .then((result) => result[0])
+  }
+
   module.exports = {
     read,
     list,
     create,
     update,
+    clear,
   }

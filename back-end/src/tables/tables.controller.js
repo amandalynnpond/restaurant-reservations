@@ -88,6 +88,12 @@ async function tableExists(req, res, next){
     res.status(200).json({ data });
   }
 
+  async function clear(req, res){
+    const { table_id } = res.locals.table
+    const data = await tablesService.clear(table_id)
+    res.status(200).json({ data }) 
+  }
+
   module.exports = {
     read: [
         tableExists,
@@ -104,5 +110,9 @@ async function tableExists(req, res, next){
       tableExists,
       asyncErrorBoundary(seatingReservationValidation),
       update,
+    ],
+    clear: [
+      tableExists,
+      asyncErrorBoundary(clear)
     ]
   }
