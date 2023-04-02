@@ -63,6 +63,16 @@ async function tableExists(req, res, next){
     return next()
   }
 
+  function clearTableValidation(req, res, next){
+    const table = res.locals.table
+    if (table.reservation_id === null){
+      next({
+        status: 400,
+        message: `Table does not have a reservation seated at it.`
+      })
+    }
+  }
+
   async function read(req, res, next){
     res.json({ data: res.locals.table })
   }
@@ -113,6 +123,7 @@ async function tableExists(req, res, next){
     ],
     clear: [
       tableExists,
+      clearTableValidation,
       asyncErrorBoundary(clear)
     ]
   }
