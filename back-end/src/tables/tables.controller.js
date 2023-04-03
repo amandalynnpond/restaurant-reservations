@@ -71,6 +71,7 @@ async function tableExists(req, res, next){
         message: `Table does not have a reservation seated at it.`
       })
     }
+    return next()
   }
 
   async function read(req, res, next){
