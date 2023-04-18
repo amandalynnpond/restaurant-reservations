@@ -18,8 +18,15 @@ async function read(req, res, next){
 }
 
 async function list(req, res){
-  const data = await reservationService.list(req.query.date)
-  res.json({data})
+  const { date } = req.query
+  const { mobile_number } = req.query
+  if (date){
+    const data = await reservationService.list(date)
+    res.json({data})
+  } else if (mobile_number){
+    const data = await reservationService.search(mobile_number)
+    res.json({data})
+  }
 }
 
 function bodyDataHas(propertyName){

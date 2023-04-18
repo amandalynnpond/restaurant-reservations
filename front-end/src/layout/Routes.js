@@ -7,6 +7,7 @@ import { today } from "../utils/date-time";
 import CreateNewReservation from "../reservations/CreateNewReservation"
 import CreateNewTable from "../tables/CreateNewTable";
 import SeatReservation from "../reservations/SeatReservation";
+import SearchReservations from "../search/SearchReservations.js"
 
 /**
  * Defines all the routes for the application.
@@ -38,6 +39,9 @@ function Routes() {
       </Route>
       <Route path="/reservations/:reservationId/seat">
         <SeatReservation />
+      </Route>
+      <Route path="/search">
+        <SearchReservations />
       </Route>
       <Route>
         <NotFound />
