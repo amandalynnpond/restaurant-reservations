@@ -101,7 +101,8 @@ async function tableExists(req, res, next){
 
   async function clear(req, res){
     const { table_id } = res.locals.table
-    const data = await tablesService.clear(table_id)
+    const { reservation_id } = res.locals.table
+    const data = await tablesService.clear(table_id, reservation_id)
     res.status(200).json({ data }) 
   }
 
