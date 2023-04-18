@@ -30,6 +30,7 @@ function SeatReservation(){
 
     const handleChange = (event) => {
         setTableId(event.target.value)
+        console.log(tableId)
     }
 
     const handleSubmit = async (event) => {
@@ -58,13 +59,17 @@ function SeatReservation(){
                 <select
                     className="form-control"
                     id="table_id"
+                    name="table_id"
                     value={tableId}
                     required={true}
                     onChange={handleChange}
                     >
-                        <option>Select Table</option>
                         {tables.map((table)=> (
-                            <option key={table.table_id} value={table.table_id}>
+                            <option
+                                key={table.table_id}
+                                value={table.table_id}
+                                onChange={handleChange}
+                            >
                                 {table.table_name} - {table.capacity}
                             </option> 
                         ))}

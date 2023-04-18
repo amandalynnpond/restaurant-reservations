@@ -11,7 +11,8 @@ function TableCard({table}){
     const handleDelete = () => {
         const result = window.confirm(`Is this table ready to seat new guests? This cannot be undone.`)
         if (result) {
-            clearTable(table.table_id)
+            const abortController = new AbortController()
+            clearTable(table.table_id, abortController.signal)
             .then(history.go(0))
         }
     }

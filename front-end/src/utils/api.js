@@ -130,6 +130,7 @@ export async function clearTable(table_id, signal){
       headers,
       method: "DELETE",
       signal,
-    }
+    },
+    []
   )
 }
