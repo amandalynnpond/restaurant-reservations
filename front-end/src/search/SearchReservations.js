@@ -5,8 +5,10 @@ import ReservationList from "../reservations/ReservationList";
 function SearchReservations(){
 
     const [mobile_number, setMobile_number] = useState("")
-    const [reservations, setReservations] = useState([]);
+    const [reservations, setReservations] = useState([])
+    const [submitted, setSubmitted] = useState(false)
     const [reservationsError, setReservationsError] = useState(null);
+    let results = ""
 
     const handleChange = ({target}) => {
         setMobile_number(target.value)
@@ -16,11 +18,20 @@ function SearchReservations(){
     const handleSubmit = async (event) => {
         event.preventDefault()
         const abortController = new AbortController()
+        setSubmitted(true)
         listReservations({ mobile_number }, abortController.signal)
             .then(setReservations)
             .catch(setReservationsError)
+            console.log("submitted:", mobile_number)
         return () => abortController.abort()
     }
+
+    if (reservations.length > 0){
+        results = <ReservationList reservations={reservations} />
+    } else {
+        results = "Reservation not found."
+    }
+
 
 
     return(
@@ -44,7 +55,7 @@ function SearchReservations(){
                 </div>
                 <button type="submit" className="btn btn-info">Find</button>
             </form>
-            <ReservationList reservations={reservations} />
+            {submitted ? results : ""}
         </main>
     )
 }
