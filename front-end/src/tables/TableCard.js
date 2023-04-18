@@ -8,12 +8,13 @@ function TableCard({table}){
     let button = <div></div>
     const history = useHistory()
 
-    const handleDelete = () => {
+    const handleDelete = async () => {
         const result = window.confirm(`Is this table ready to seat new guests? This cannot be undone.`)
         if (result) {
             const abortController = new AbortController()
-            clearTable(table.table_id, abortController.signal)
-            .then(history.go(0))
+            await clearTable(table.table_id, abortController.signal)
+            history.push(`/dashboard`)
+            return () => abortController.abort
         }
     }
 
