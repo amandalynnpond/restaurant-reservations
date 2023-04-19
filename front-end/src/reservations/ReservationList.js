@@ -3,9 +3,7 @@ import ReservationCard from "./ReservationCard"
 
 function ReservationList({reservations}){
 
-    const reservationList = reservations.filter((reservation) => {
-        return reservation.status !== "finished"
-    }).map((reservation) => <ReservationCard key={reservation.reservation_id} reservation={reservation} />)
+    const reservationList = reservations.map((reservation) => <ReservationCard key={reservation.reservation_id} reservation={reservation} />)
 
     return (
         <div>

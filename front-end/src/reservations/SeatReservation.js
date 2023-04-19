@@ -8,7 +8,7 @@ function SeatReservation(){
 
     const [reservation, setReservation] = useState([])
     const [tables, setTables] = useState([])
-    const [tableId, setTableId] = useState('')
+    const [tableId, setTableId] = useState(undefined)
     const {reservationId} = useParams()
     const history = useHistory()
     const [error, setError] = useState(null)

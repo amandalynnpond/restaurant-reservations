@@ -49,7 +49,7 @@ function Dashboard({ date }) {
         <button type="button" className="btn btn-secondary" onClick={() => history.push(`/dashboard?date=${next(date)}`)}>Next</button>
       </div>
       <ErrorAlert error={reservationsError} />
-      <ReservationList reservations={reservations} />
+      <ReservationList reservations={reservations.filter((reservation) => {return reservation.status !== "finished"})} />
       <TableList tables={tables} />
     </main>
   );
