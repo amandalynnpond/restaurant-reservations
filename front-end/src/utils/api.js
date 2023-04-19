@@ -108,18 +108,14 @@ export async function listTables(signal) {
 }
 
 //SEATING/CLEARING TABLES AND RESERVATIONS
-export async function seatTable(table_id, reservation_id, signal) {
+export async function seatTable(reservation_id, table_id) {
   const url = `${API_BASE_URL}/tables/${table_id}/seat`;
-  return await fetchJson(
-    url,
-    {
-      body: JSON.stringify({ data: { reservation_id } }),
-      headers,
-      method: "PUT",
-      signal,
-    },
-    []
-  );
+  const options = {
+    method: "PUT",
+    body: JSON.stringify({ data: { reservation_id } }),
+    headers,
+  };
+  return await fetchJson(url, options);
 }
 
 export async function clearTable(table_id, signal){

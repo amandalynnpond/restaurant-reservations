@@ -94,7 +94,7 @@ async function tableExists(req, res, next){
     const { reservation_id } = req.body.data;
     const data = await tablesService.update(
       reservation_id,
-      reservation_id
+      res.locals.table.table_id
     );
     res.status(200).json({ data });
   }

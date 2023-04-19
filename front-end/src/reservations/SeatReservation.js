@@ -34,21 +34,16 @@ function SeatReservation(){
 
     const handleSubmit = async (event) => {
         event.preventDefault()
-        const abortController = new AbortController()
         const selectedTable = tables.find(table => table.table_id === Number(tableId))
         if (selectedTable.capacity < reservation.people){
             SeatingErrors.push("Please choose table that can handle party size.")
             setError(SeatingErrors)
         } else {
-            try {
-                await seatTable(selectedTable.table_id, reservation.reservation_id, abortController.signal)
-                history.push(`/dashboard`)
-            } catch (err) {
-                setError([err.message])
+            console.log("submitted", selectedTable.table_id)
+            await seatTable(reservation.reservation_id, selectedTable.table_id)
+            history.push(`/dashboard`)
             }
-            return () => abortController.abort
         }
-    }
 
     return (
         <article>

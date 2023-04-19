@@ -20,7 +20,7 @@ function create(table) {
       .then((createdRecords) => createdRecords[0]);
   }
 
-  function update(table_id, reservation_id){
+  function update(reservation_id, table_id){
     return knex.transaction(async (trx) => {
       await knex("reservations")
         .where({ reservation_id })
