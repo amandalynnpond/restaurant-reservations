@@ -13,8 +13,11 @@ router.route("/")
     .post(controller.create)
     .all(methodNotAllowed)
 
-router.route("/:reservationId/seat")
+router.route("/:reservation_id/seat")
     .get(controller.readReservation)
     .all(methodNotAllowed)
+
+router.route("/:reservation_id/status")
+    .put(controller.cancelReservation)
 
 module.exports = router;

@@ -130,3 +130,15 @@ export async function clearTable(table_id, signal){
     []
   )
 }
+
+//CANCELING AND EDITING RESERVATIONS
+export async function cancelReservation(reservation_id, status, signal) {
+  const url = `${API_BASE_URL}/reservations/${reservation_id}/status`;
+  const options = {
+    method: "PUT",
+    headers,
+    body: JSON.stringify({ data: { status } }), 
+    signal,
+  };
+  return await fetchJson(url, options, { status });
+}

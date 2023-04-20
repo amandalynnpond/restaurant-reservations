@@ -2,9 +2,11 @@ const reservationService = require("./reservations.service")
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary")
 
 async function reservationExists(req, res, next){
-  const reservation = await reservationService.read(req.params.reservationId)
+  const { reservation_id } = req.params
+  const reservation = await reservationService.read(reservation_id)
   if (reservation){
       res.locals.reservation = reservation
+      console.log(reservation)
       return next()
   }
   return next({
@@ -81,12 +83,23 @@ function validateReservationTime(req, res, next){
   return next()
 }
 
-
 async function create(req, res) {
   let reservation = req.body.data;
   reservation = { ...reservation};
+  console.log(reservation)
   const data = await reservationService.create(reservation);
   res.status(201).json({ data });
+}
+
+async function cancelReservation(req, res) {
+  const { status, reservation } = res.locals;
+  const updatedReservation = {
+    ...reservation,
+    status,
+  };
+  const result = await service.cancelReservation(updatedReservation);
+  const data = result[0];
+  res.json({ data });
 }
 
 module.exports = {
@@ -105,4 +118,8 @@ module.exports = {
     bodyDataHas("people"),
     asyncErrorBoundary(create)
   ],
+  cancelReservation: [
+    reservationExists,
+    asyncErrorBoundary(cancelReservation)
+  ]
 };

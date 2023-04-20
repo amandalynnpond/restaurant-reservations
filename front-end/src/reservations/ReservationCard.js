@@ -1,9 +1,28 @@
 import React from "react"
+import { cancelReservation } from "../utils/api"
+import { useHistory } from "react-router";
 
 function ReservationCard({reservation}){
 
     const reservation_id = reservation.reservation_id
-    let button = <a href={`/reservations/${reservation_id}/seat`}><button type="button" className="btn btn-secondary">Seat</button></a>
+    const history = useHistory()
+
+    async function handleCancel(reservation_id) {
+        const abortController = new AbortController();
+        const result = window.confirm(
+          "Do you want to cancel this reservation? This cannot be undone."
+        );
+      if (result) {
+        await cancelReservation(reservation_id, "cancelled", abortController.signal);
+        history.go(0)
+      }
+      return () => abortController.abort();
+    }
+
+    let button = <div><a href={`/reservations/${reservation_id}/seat`}><button type="button" className="btn btn-secondary">Seat</button></a>
+    <a href={`/reservations/${reservation_id}/edit`}><button type="button" className="btn btn-secondary">Edit</button></a>
+    <button type="button" className="btn btn-warning" onClick={handleCancel} data-reservation-id-cancel={reservation.reservation_id}>Cancel</button>
+    </div>
 
 
     if (reservation.status !== "booked"){
