@@ -30,11 +30,11 @@ async function list(date) {
       .orderBy("reservation_date");
   }
 
-  async function cancelReservation(reservation_id, status) {
+  async function updateStatus(reservation_id, status) {
     return knex("reservations")
         .select("*")
         .where({ reservation_id })
-        .update({ status: "cancelled" })
+        .update({ status: status })
         .then((result) => result[0]);
 }
 
@@ -43,5 +43,5 @@ async function list(date) {
     list,
     create,
     search,
-    cancelReservation
+    updateStatus
   }

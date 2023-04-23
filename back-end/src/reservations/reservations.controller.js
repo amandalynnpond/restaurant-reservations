@@ -91,15 +91,12 @@ async function create(req, res) {
   res.status(201).json({ data });
 }
 
-async function cancelReservation(req, res) {
-  const { status, reservation } = res.locals;
-  const updatedReservation = {
-    ...reservation,
-    status,
-  };
-  const result = await reservationService.cancelReservation(updatedReservation);
-  const data = result[0];
-  res.json({ data });
+async function updateStatus(req, res) {
+  let { status } = req.body.data
+  const { reservation_id } = req.params;
+  console.log(status, reservation_id)
+  const updatedReservation = await reservationService.updateStatus(reservation_id, status);
+  res.status(200).json({ data: updatedReservation });
 }
 
 module.exports = {
@@ -118,8 +115,8 @@ module.exports = {
     bodyDataHas("people"),
     asyncErrorBoundary(create)
   ],
-  cancelReservation: [
+  updateStatus: [
     //reservationExists,
-    asyncErrorBoundary(cancelReservation)
+    asyncErrorBoundary(updateStatus)
   ]
 };
