@@ -39,6 +39,7 @@ function CreateNewReservation(){
     event.preventDefault();
     const abortController = new AbortController();
     const reservationErrors = ReservationErrors(formData)
+    console.log(formData.reservation_date)
     if (reservationErrors.length){
       setError(reservationErrors)
     } else {

@@ -1,11 +1,10 @@
+import moment from "moment";
 import React, { useState } from "react";
 import { useHistory } from "react-router";
 
 function ReservationForm({ handleChange, handleSubmit, formData}){
 
     const history = useHistory()
-    let date = new Date(formData.reservation_date)
-    console.log(date)
 
     return (
         <form name="create" onSubmit={handleSubmit}>
@@ -19,7 +18,7 @@ function ReservationForm({ handleChange, handleSubmit, formData}){
                         placeholder="First Name"
                         className="form-control"
                         onChange={handleChange}
-                        value={formData.first_name}
+                        value={formData.first_name ?? ""}
                     />
                 </label>
                 <label htmlFor="last_name">
@@ -31,7 +30,7 @@ function ReservationForm({ handleChange, handleSubmit, formData}){
                         placeholder="Last Name"
                         className="form-control"
                         onChange={handleChange}
-                        value={formData.last_name}
+                        value={formData.last_name ?? ""}
                     />
                 </label>
                 <label htmlFor="mobile_number">
@@ -43,7 +42,7 @@ function ReservationForm({ handleChange, handleSubmit, formData}){
                         placeholder="XXX-XXX-XXXX"
                         className="form-control"
                         onChange={handleChange}
-                        value={formData.mobile_number}
+                        value={formData.mobile_number ?? ""}
                     />
                 </label>
               </div>
@@ -58,7 +57,7 @@ function ReservationForm({ handleChange, handleSubmit, formData}){
                         pattern="\d{4}-\d{2}-\d{2}"
                         className="form-control"
                         onChange={handleChange}
-                        value={formData.reservation_date}
+                        value={formData.reservation_date ?? ""}
                     />
                 </label>
                 <label htmlFor="reservation_time">
@@ -71,7 +70,7 @@ function ReservationForm({ handleChange, handleSubmit, formData}){
                         pattern="[0-9]{2}:[0-9]{2}"
                         className="form-control"
                         onChange={handleChange}
-                        value={formData.reservation_time}
+                        value={formData.reservation_time ?? ""}
                     />
                 </label>
                 <label htmlFor="people">

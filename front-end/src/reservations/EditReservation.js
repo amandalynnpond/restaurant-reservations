@@ -14,7 +14,7 @@ function EditReservation(){
     useEffect(() => {
         const abortController = new AbortController()
         readReservation(reservationId, abortController.signal)
-        .then(setReservation)
+        .then((data) => setReservation({...data, "reservation_date": data.reservation_date.split("T")[0]}))
         .catch(setError)
         return () => abortController.abort
     }, [reservationId])

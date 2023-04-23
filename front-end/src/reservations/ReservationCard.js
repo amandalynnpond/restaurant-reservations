@@ -13,7 +13,7 @@ function ReservationCard({reservation}){
           "Do you want to cancel this reservation? This cannot be undone."
         );
       if (result) {
-        await cancelReservation(reservation_id, "cancelled", abortController.signal);
+        await cancelReservation(reservation, "cancelled", abortController.signal);
         history.go(0)
       }
       return () => abortController.abort();

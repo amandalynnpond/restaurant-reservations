@@ -97,7 +97,7 @@ async function cancelReservation(req, res) {
     ...reservation,
     status,
   };
-  const result = await service.cancelReservation(updatedReservation);
+  const result = await reservationService.cancelReservation(updatedReservation);
   const data = result[0];
   res.json({ data });
 }
@@ -119,7 +119,7 @@ module.exports = {
     asyncErrorBoundary(create)
   ],
   cancelReservation: [
-    reservationExists,
+    //reservationExists,
     asyncErrorBoundary(cancelReservation)
   ]
 };
