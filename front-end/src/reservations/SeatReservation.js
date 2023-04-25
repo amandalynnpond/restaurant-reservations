@@ -39,7 +39,6 @@ function SeatReservation(){
             SeatingErrors.push("Please choose table that can handle party size.")
             setError(SeatingErrors)
         } else {
-            console.log("submitted", selectedTable.table_id)
             await seatTable(reservation.reservation_id, selectedTable.table_id)
             history.push(`/dashboard`)
             }

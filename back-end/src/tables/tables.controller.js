@@ -2,6 +2,7 @@ const tablesService = require("./tables.service")
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary")
 const reservationService = require("../reservations/reservations.service")
 
+//MIDDLEWARE
 async function tableExists(req, res, next){
     const table = await tablesService.read(req.params.table_id)
     if (table){

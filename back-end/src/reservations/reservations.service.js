@@ -38,10 +38,19 @@ async function list(date) {
         .then((result) => result[0]);
 }
 
+async function update(reservation_id, reservation){
+  return knex("reservations")
+    .select("*")
+    .where({ reservation_id })
+    .update(reservation, "*")
+    .then((result) => result[0])
+}
+
   module.exports = {
     read,
     list,
     create,
     search,
-    updateStatus
+    updateStatus,
+    update
   }

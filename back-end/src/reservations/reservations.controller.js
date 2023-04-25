@@ -1,34 +1,18 @@
 const reservationService = require("./reservations.service")
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary")
 
+//MIDDLEWARE
 async function reservationExists(req, res, next){
   const { reservation_id } = req.params
   const reservation = await reservationService.read(reservation_id)
   if (reservation){
       res.locals.reservation = reservation
-      console.log(reservation)
       return next()
   }
   return next({
       status: 404,
       message: `Reservation does not exist.`
   })
-}
-
-async function read(req, res, next){
-  res.json({ data: res.locals.reservation })
-}
-
-async function list(req, res){
-  const { date } = req.query
-  const { mobile_number } = req.query
-  if (date){
-    const data = await reservationService.list(date)
-    res.json({data})
-  } else if (mobile_number){
-    const data = await reservationService.search(mobile_number)
-    res.json({data})
-  }
 }
 
 function bodyDataHas(propertyName){
@@ -83,10 +67,25 @@ function validateReservationTime(req, res, next){
   return next()
 }
 
+async function read(req, res, next){
+  res.json({ data: res.locals.reservation })
+}
+
+async function list(req, res){
+  const { date } = req.query
+  const { mobile_number } = req.query
+  if (date){
+    const data = await reservationService.list(date)
+    res.json({data})
+  } else if (mobile_number){
+    const data = await reservationService.search(mobile_number)
+    res.json({data})
+  }
+}
+
 async function create(req, res) {
   let reservation = req.body.data;
-  reservation = { ...reservation};
-  console.log(reservation)
+  reservation = { ...reservation };
   const data = await reservationService.create(reservation);
   res.status(201).json({ data });
 }
@@ -94,9 +93,15 @@ async function create(req, res) {
 async function updateStatus(req, res) {
   let { status } = req.body.data
   const { reservation_id } = req.params;
-  console.log(status, reservation_id)
   const updatedReservation = await reservationService.updateStatus(reservation_id, status);
   res.status(200).json({ data: updatedReservation });
+}
+
+async function update(req, res){
+  const reservation = req.body.data
+  const reservation_id = reservation.reservation_id
+  const data = await reservationService.update(reservation_id, reservation)
+  res.status(200).json({ data })
 }
 
 module.exports = {
@@ -116,7 +121,17 @@ module.exports = {
     asyncErrorBoundary(create)
   ],
   updateStatus: [
-    //reservationExists,
+    reservationExists,
     asyncErrorBoundary(updateStatus)
+  ],
+  update: [
+    validateReservationTime,
+    bodyDataHas("first_name"),
+    bodyDataHas("last_name"),
+    bodyDataHas("mobile_number"),
+    bodyDataHas("reservation_date"),
+    bodyDataHas("reservation_time"),
+    bodyDataHas("people"),
+    asyncErrorBoundary(update)
   ]
 };

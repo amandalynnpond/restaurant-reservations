@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import ReservationForm from "./ReservationForm";
+import ReservationErrors from "./ReservationErrors";
 import ErrorAlert from "../layout/ErrorAlert";
 import { useHistory, useParams } from "react-router";
-import { readReservation } from "../utils/api";
+import { readReservation, update } from "../utils/api";
 
 function EditReservation(){
 
@@ -29,7 +30,19 @@ function EditReservation(){
 
       const handleSubmit = async (event) => {
         event.preventDefault();
-        console.log(reservation, "submitted!")
+        const abortController = new AbortController();
+        const reservationErrors = ReservationErrors(reservation)
+        if (reservationErrors.length){
+          setError(reservationErrors)
+        } else {
+          try {
+            await update(reservation, abortController.signal);
+            history.goBack()
+          } catch (err) {
+            setError([err.message]);
+          }
+          return () => abortController.abort();
+        }
       }
 
     return(
