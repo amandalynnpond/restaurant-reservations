@@ -13,11 +13,8 @@ router.route("/")
     .post(controller.create)
     .all(methodNotAllowed)
 
-router.route("/:reservation_id/seat")
+router.route("/:reservation_id")
     .get(controller.readReservation)
-    .all(methodNotAllowed)
-
-router.route("/:reservation_id/edit")
     .put(controller.update)
     .all(methodNotAllowed)
 

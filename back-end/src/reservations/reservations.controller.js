@@ -24,10 +24,10 @@ function bodyDataHas(propertyName){
         message: `Must include ${propertyName}`
       })
     } else if (propertyName === "people"){
-      if(data.people < 1){
+      if(data.people < 1 || !Number.isInteger(data.people)){
         next({
           status: 400,
-          message: `Number of guests must be at least one.`
+          message: `Number of people must be an integer greater than 0.`
         })
       }
     }
@@ -37,13 +37,25 @@ function bodyDataHas(propertyName){
 
 function validateReservationTime(req, res, next){
   const { data = {} } = req.body
+  const dateValidation = Date.parse(data.reservation_date)
+  const timeValidation = data.reservation_time
   const reservationDate = new Date(data.reservation_date)
   const reservationTime = new Date(`${data.reservation_date}T${data.reservation_time}`)
   const reservationHourAndMinutes = data.reservation_time.split(":")
   const reservationHour = parseInt(reservationHourAndMinutes[0])
   const reservationMinute = parseInt(reservationHourAndMinutes[1])
   const today = new Date()
-  if (reservationDate.getUTCDay() === 2){
+  if (isNaN(dateValidation)){
+    next({
+      status: 400,
+      message: `Please use valid date for reservation_date.`
+    })
+  } else if (!/^([0-1][0-9]|2[0-3]):([0-5][0-9])$/.test(timeValidation)){
+    next({
+      status: 400,
+      message: `Please use valid time for reservation_time.`
+    })
+  } else if (reservationDate.getUTCDay() === 2){
     next({
       status: 400,
       message: `Restaurant is closed on Tuesdays.`
@@ -76,10 +88,10 @@ async function list(req, res){
   const { mobile_number } = req.query
   if (date){
     const data = await reservationService.list(date)
-    res.json({data})
+    res.json({ data })
   } else if (mobile_number){
     const data = await reservationService.search(mobile_number)
-    res.json({data})
+    res.json({ data })
   }
 }
 
@@ -111,13 +123,13 @@ module.exports = {
   ],
   list: [asyncErrorBoundary(list)],
   create: [
-    validateReservationTime,
     bodyDataHas("first_name"),
     bodyDataHas("last_name"),
     bodyDataHas("mobile_number"),
     bodyDataHas("reservation_date"),
     bodyDataHas("reservation_time"),
     bodyDataHas("people"),
+    validateReservationTime,
     asyncErrorBoundary(create)
   ],
   updateStatus: [
@@ -125,13 +137,13 @@ module.exports = {
     asyncErrorBoundary(updateStatus)
   ],
   update: [
-    validateReservationTime,
     bodyDataHas("first_name"),
     bodyDataHas("last_name"),
     bodyDataHas("mobile_number"),
     bodyDataHas("reservation_date"),
     bodyDataHas("reservation_time"),
     bodyDataHas("people"),
+    validateReservationTime,
     asyncErrorBoundary(update)
   ]
 };

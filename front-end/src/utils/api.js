@@ -60,7 +60,7 @@ async function fetchJson(url, options, onCancel) {
 
 //RESERVATIONS
 export async function readReservation(reservation_id, signal){
-  const url = `${API_BASE_URL}/reservations/${reservation_id}/seat`
+  const url = `${API_BASE_URL}/reservations/${reservation_id}`
   return await fetchJson(url, { signal }, {})
 }
 
@@ -145,7 +145,7 @@ export async function updateStatus(reservation_id, status, signal) {
 
 export async function update(reservation, signal){
   const reservation_id = reservation.reservation_id
-  const url = `${API_BASE_URL}/reservations/${reservation_id}/edit`
+  const url = `${API_BASE_URL}/reservations/${reservation_id}`
   const options = {
     method: "PUT",
     headers,
