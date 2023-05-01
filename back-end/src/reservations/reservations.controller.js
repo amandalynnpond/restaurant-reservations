@@ -30,15 +30,15 @@ function bodyDataHas(propertyName){
 
 function validateNumberOfPeople(req, res, next){
   const { people } = req.body.data;
-  const peopleNumber = Number.parseInt(people)
-  const valid = Number.isInteger(peopleNumber);
-  if(valid && people > 0) {
-    return next();
-  }
-  next ({
+  console.log(req.body.data)
+  //const peopleNumber = Number.parseInt(people)
+  if (!Number.isInteger(people) || people <= 1) {
+    return next({
     status: 400,
-    message: `${people} is not a valid number of people.`,
-  })
+    message: "# of people must be a whole number and >= 1",
+  });
+  } 
+  return next()
 }
 
 function validateReservationTime(req, res, next){

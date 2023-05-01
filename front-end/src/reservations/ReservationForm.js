@@ -76,10 +76,9 @@ function ReservationForm({ handleChange, handleSubmit, formData}){
                   Number of Guests
                   <input 
                     id="people"
-                    type="text"
+                    type="number"
                     name="people"
                     placeholder="1"
-                    pattern="[0-9]*"
                     className="form-control"
                     onChange={handleChange}
                     value={formData.people}
