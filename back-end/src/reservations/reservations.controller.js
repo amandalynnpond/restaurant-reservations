@@ -11,7 +11,7 @@ async function reservationExists(req, res, next){
   }
   return next({
       status: 404,
-      message: `Reservation does not exist.`
+      message: `Reservation ${reservation_id} does not exist.`
   })
 }
 
@@ -23,16 +23,22 @@ function bodyDataHas(propertyName){
         status: 400,
         message: `Must include ${propertyName}`
       })
-    } else if (propertyName === "people"){
-      if(data.people < 1 || !Number.isInteger(data.people)){
-        next({
-          status: 400,
-          message: `Number of people must be an integer greater than 0.`
-        })
-      }
-    }
+    } 
     return next()
   }
+}
+
+function validateNumberOfPeople(req, res, next){
+  const { people } = req.body.data;
+  const peopleNumber = Number.parseInt(people)
+  const valid = Number.isInteger(peopleNumber);
+  if(valid && people > 0) {
+    return next();
+  }
+  next ({
+    status: 400,
+    message: `${people} is not a valid number of people.`,
+  })
 }
 
 function validateReservationTime(req, res, next){
@@ -74,6 +80,29 @@ function validateReservationTime(req, res, next){
     next({
       status: 400,
       message: `Please choose a time before 9:30PM.`
+    })
+  }
+  return next()
+}
+
+function validateBookedStatus(req, res, next){
+  const reservation = req.body.data
+  if (reservation.status && reservation.status !== "booked"){
+    next({
+      status: 400,
+      message: `Reservation status ${reservation.status} is invalid. Must be "booked" for new reservations.`
+    })
+  }
+  return next()
+}
+
+//this doesn't work - console.log during reservationExists with nothing shown
+function validateStatus(req, res, next){
+  const reservation = res.locals.reservation
+  if (reservation.status == "finished"){
+    next({
+      status:400,
+      message: `Reservation cannot be updated if it is already finished.`
     })
   }
   return next()
@@ -130,10 +159,13 @@ module.exports = {
     bodyDataHas("reservation_time"),
     bodyDataHas("people"),
     validateReservationTime,
-    asyncErrorBoundary(create)
+    validateNumberOfPeople,
+    validateBookedStatus,
+    asyncErrorBoundary(create),
   ],
   updateStatus: [
     reservationExists,
+    validateStatus,
     asyncErrorBoundary(updateStatus)
   ],
   update: [

@@ -1,6 +1,7 @@
 const tablesService = require("./tables.service")
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary")
 const reservationService = require("../reservations/reservations.service")
+const reservationController = require("../reservations/reservations.controller")
 
 //MIDDLEWARE
 async function tableExists(req, res, next){
@@ -11,7 +12,20 @@ async function tableExists(req, res, next){
     }
     return next({
         status: 404,
-        message: `Table does not exist.`
+        message: `Table ${req.params.table_id} does not exist.`
+    })
+  }
+
+  async function reservationExists(req, res, next){
+    const { reservation_id } = req.body.data
+    const reservation = await reservationService.read(reservation_id)
+    if (reservation){
+      res.locals.reservation = reservation
+      return next()
+    }
+    return next({
+      status: 404,
+      message: `Reservation ${reservation_id} does not exist.`
     })
   }
 
@@ -37,7 +51,7 @@ async function tableExists(req, res, next){
         status: 400,
         message: `table_name must be at least two characters long.`
       })
-    } else if (tableCapacity < 1 || isNaN(tableCapacity)){
+    } else if (isNaN(tableCapacity) || tableCapacity < 1){
       next({
         status: 400,
         message: `Table capacity must be a number and at least one.`
@@ -69,7 +83,7 @@ async function tableExists(req, res, next){
     if (table.reservation_id === null){
       next({
         status: 400,
-        message: `Table does not have a reservation seated at it.`
+        message: `Table is not occupied.`
       })
     }
     return next()
@@ -121,8 +135,10 @@ async function tableExists(req, res, next){
     ],
     update: [
       tableExists,
-      asyncErrorBoundary(seatingReservationValidation),
-      update,
+      bodyDataHas("reservation_id"),
+      reservationExists,
+      seatingReservationValidation,
+      asyncErrorBoundary(update),
     ],
     clear: [
       tableExists,
