@@ -79,6 +79,11 @@ async function tableExists(req, res, next){
         status: 400,
         message: `Table is already occupied.`
       })
+    } else if (reservation.status === "seated"){
+      next({
+        status: 400,
+        message: `Reservation is already seated.`
+      })
     }
     return next()
   }

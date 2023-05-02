@@ -30,8 +30,6 @@ function bodyDataHas(propertyName){
 
 function validateNumberOfPeople(req, res, next){
   const { people } = req.body.data;
-  console.log(req.body.data)
-  //const peopleNumber = Number.parseInt(people)
   if (!Number.isInteger(people) || people <= 0) {
     return next({
     status: 400,
@@ -96,16 +94,26 @@ function validateBookedStatus(req, res, next){
   return next()
 }
 
-//this doesn't work - console.log during reservationExists with nothing shown
-function validateStatus(req, res, next){
+function validateCurrentStatus(req, res, next){
   const reservation = res.locals.reservation
   if (reservation.status == "finished"){
     next({
-      status:400,
+      status: 400,
       message: `Reservation cannot be updated if it is already finished.`
     })
   }
   return next()
+}
+
+function validateUpdatedStatus(req, res, next){
+  const { status } = req.body.data
+  if (status === "finished" || status === "seated" || status === "booked" || status === "cancelled"){
+    return next()
+  }
+  next({
+    status: 400,
+    message: `Status cannot be updated ${status}, it must be finished, seated, booked, or cancelled.`
+  })
 }
 
 async function read(req, res, next){
@@ -165,7 +173,8 @@ module.exports = {
   ],
   updateStatus: [
     reservationExists,
-    validateStatus,
+    validateCurrentStatus,
+    validateUpdatedStatus,
     asyncErrorBoundary(updateStatus)
   ],
   update: [
