@@ -42,21 +42,26 @@ async function tableExists(req, res, next){
     }
   }
 
-  function tableHasValidProperties(req, res, next){
+  function validateTableNameLength(req, res, next){
     const { data = {} } = req.body
     const tableName = data.table_name
-    const tableCapacity = data.capacity
     if (tableName.length < 2){
       next({
         status: 400,
         message: `table_name must be at least two characters long.`
       })
-    } else if (isNaN(tableCapacity) || tableCapacity < 1){
-      next({
-        status: 400,
-        message: `Table capacity must be a number and at least one.`
-      })
-    }
+    } 
+    return next()
+  }
+
+  function validateCapacity(req, res, next){
+    const { capacity } = req.body.data;
+    if (!Number.isInteger(capacity) || capacity <= 0) {
+      return next({
+      status: 400,
+      message: "Table capacity must be a number and at least one.",
+    });
+    } 
     return next()
   }
 
@@ -67,7 +72,7 @@ async function tableExists(req, res, next){
     if (reservation.people > table.capacity){
       next({
         status: 400,
-        message: `Please choose a table that can handle party size.`
+        message: `Table capacity cannot handle party size.`
       })
     } else if (table.reservation_id != null){
       next({
@@ -130,7 +135,8 @@ async function tableExists(req, res, next){
     create: [
         bodyDataHas("table_name"),
         bodyDataHas("capacity"),
-        tableHasValidProperties,
+        validateTableNameLength,
+        validateCapacity,
         asyncErrorBoundary(create)
     ],
     update: [

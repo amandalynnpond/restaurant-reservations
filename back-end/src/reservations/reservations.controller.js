@@ -32,10 +32,10 @@ function validateNumberOfPeople(req, res, next){
   const { people } = req.body.data;
   console.log(req.body.data)
   //const peopleNumber = Number.parseInt(people)
-  if (!Number.isInteger(people) || people <= 1) {
+  if (!Number.isInteger(people) || people <= 0) {
     return next({
     status: 400,
-    message: "# of people must be a whole number and >= 1",
+    message: "${people} is not a valid number of people.",
   });
   } 
   return next()
@@ -169,6 +169,7 @@ module.exports = {
     asyncErrorBoundary(updateStatus)
   ],
   update: [
+    reservationExists,
     bodyDataHas("first_name"),
     bodyDataHas("last_name"),
     bodyDataHas("mobile_number"),
@@ -176,6 +177,7 @@ module.exports = {
     bodyDataHas("reservation_time"),
     bodyDataHas("people"),
     validateReservationTime,
+    validateNumberOfPeople,
     asyncErrorBoundary(update)
   ]
 };
