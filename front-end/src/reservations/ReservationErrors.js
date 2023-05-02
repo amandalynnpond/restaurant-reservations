@@ -1,12 +1,13 @@
 function ReservationErrors(reservation){
     const reservationDateAndTime = new Date(`${reservation.reservation_date}T${reservation.reservation_time}`)
+    const UTCReservationDateAndTime = new Date(`${reservation.reservation_date}T${reservation.reservation_time + 4}`)
     const reservationHourAndMinutes = reservation.reservation_time.split(":")
     const reservationHour = parseInt(reservationHourAndMinutes[0])
     const reservationMinute = parseInt(reservationHourAndMinutes[1])
     const today = new Date()
     const errors = []
 
-    if (reservationDateAndTime.getUTCDay() === 2){
+    if (UTCReservationDateAndTime.getUTCDay() === 2){
        errors.push("Restaurant is closed on Tuesdays.")
     }
 

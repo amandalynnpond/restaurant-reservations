@@ -9,19 +9,25 @@ function CreateNewTable(){
   const history = useHistory()
   const initialFormState = {
     table_name: "",
-    capacity: "",
+    capacity: 0,
   }
 
   const [formData, setFormData] = useState({...initialFormState})
   const [error, setError] = useState(null)
 
-  const handleChange = ({target}) => {
-    const value = target.value
-    setFormData({
-      ...formData,
-      [target.name]: value
-    })
-  }
+  const handleChange = (event) => {
+    if (event.target.name === "capacity") {
+      setFormData({
+        ...formData,
+        [event.target.name]: Number(event.target.value),
+      });
+    } else {
+      setFormData({
+        ...formData,
+        [event.target.name]: event.target.value,
+      });
+    }
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -62,7 +68,7 @@ function CreateNewTable(){
                   Table Capacity
                   <input 
                     id="capacity"
-                    type="text"
+                    type="number"
                     name="capacity"
                     placeholder="1"
                     pattern="[0-9]*"

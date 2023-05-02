@@ -35,7 +35,7 @@ async function list(date) {
     return knex("reservations")
         .select("*")
         .where({ reservation_id })
-        .update({ status: status })
+        .update({ status: status }, "*")
         .then((result) => result[0]);
 }
 

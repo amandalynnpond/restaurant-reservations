@@ -140,10 +140,11 @@ async function create(req, res) {
 }
 
 async function updateStatus(req, res) {
-  let { status } = req.body.data
+  const reservation = req.body.data
+  const status = reservation.status
   const { reservation_id } = req.params;
-  const updatedReservation = await reservationService.updateStatus(reservation_id, status);
-  res.status(200).json({ data: updatedReservation });
+  const data = await reservationService.updateStatus(reservation_id, status);
+  res.status(200).json({ data });
 }
 
 async function update(req, res){

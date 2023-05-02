@@ -29,7 +29,7 @@ function SearchReservations(){
     if (reservations.length > 0){
         results = <ReservationList reservations={reservations} />
     } else {
-        results = "Reservation not found"
+        results = "No reservations found"
     }
 
 

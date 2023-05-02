@@ -4,10 +4,22 @@ import ReservationErrors from "./ReservationErrors";
 import ErrorAlert from "../layout/ErrorAlert";
 import { useHistory, useParams } from "react-router";
 import { readReservation, update } from "../utils/api";
+import { formatAsTime } from "../utils/date-time";
 
 function EditReservation(){
 
-    const [reservation, setReservation] = useState([])
+  const initialReservationState = {
+    first_name: "",
+    last_name: "",
+    mobile_number: "",
+    reservation_date: "",
+    reservation_time: "",
+    people: 0,
+  };
+
+    const [reservation, setReservation] = useState({
+      ...initialReservationState
+    })
     const [error, setError] = useState(null)
     const {reservationId} = useParams()
     const history = useHistory()
@@ -15,19 +27,24 @@ function EditReservation(){
     useEffect(() => {
         const abortController = new AbortController()
         readReservation(reservationId, abortController.signal)
-        .then((data) => setReservation({...data, "reservation_date": data.reservation_date.split("T")[0]}))
+        .then((data) => setReservation({...data, "reservation_date": data.reservation_date.split("T")[0], "reservation_time": formatAsTime(data.reservation_time)}))
         .catch(setError)
         return () => abortController.abort
     }, [reservationId])
     
-      const handleChange = ({target}) => {
-        const value = target.value
+    const handleChange = (event) => {
+      if (event.target.name === "people") {
         setReservation({
           ...reservation,
-          [target.name]: value
-        })
+          [event.target.name]: Number(event.target.value),
+        });
+      } else {
+        setReservation({
+          ...reservation,
+          [event.target.name]: event.target.value,
+        });
       }
-
+    };
       const handleSubmit = async (event) => {
         event.preventDefault();
         const abortController = new AbortController();
@@ -37,7 +54,7 @@ function EditReservation(){
         } else {
           try {
             await update(reservation, abortController.signal);
-            history.goBack()
+            history.push(`/dashboard?date=${reservation.reservation_date}`)
           } catch (err) {
             setError([err.message]);
           }

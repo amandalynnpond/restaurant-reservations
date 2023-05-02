@@ -43,6 +43,7 @@ function CreateNewReservation(){
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    console.log(formData)
     const abortController = new AbortController();
     const reservationErrors = ReservationErrors(formData)
     if (reservationErrors.length){
