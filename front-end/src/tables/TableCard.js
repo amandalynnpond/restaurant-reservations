@@ -24,7 +24,7 @@ function TableCard({table}){
     }
 
     return(
-        <article>
+        <article class="border border-secondary rounded m-2 p-3">
             <h4>{table.table_name}</h4>
             Capacity: {table.capacity}
             <div data-table-id-status={table.table_id}>
