@@ -43,10 +43,12 @@ function Dashboard({ date }) {
     <main>
       <h1>Dashboard</h1>
       <div className="d-md-flex mb-3">
-      <h4 className="mb-0">Reservations for {moment(date).format('dddd, MMMM Do YYYY')} </h4>
-        <button type="button" className="btn btn-secondary" onClick={() => history.push(`/dashboard?date=${previous(date)}`)}>Previous</button>
-        <button type="button" className="btn btn-secondary" onClick={() => history.push(`/dashboard?date=${today(date)}`)}>Today</button>
-        <button type="button" className="btn btn-secondary" onClick={() => history.push(`/dashboard?date=${next(date)}`)}>Next</button>
+        <h4 className="mb-0">Reservations for {moment(date).format('dddd, MMMM Do YYYY')} </h4>
+        <div className="select-days-group">
+          <button type="button" className="btn btn-secondary" onClick={() => history.push(`/dashboard?date=${previous(date)}`)}>Previous</button>
+          <button type="button" className="btn btn-secondary" onClick={() => history.push(`/dashboard?date=${today(date)}`)}>Today</button>
+          <button type="button" className="btn btn-secondary" onClick={() => history.push(`/dashboard?date=${next(date)}`)}>Next</button>
+        </div>
       </div>
       <ErrorAlert error={reservationsError} />
       <ReservationList reservations={reservations.filter((reservation) => {return reservation.status !== "finished"})} />

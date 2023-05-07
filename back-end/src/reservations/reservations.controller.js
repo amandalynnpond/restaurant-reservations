@@ -1,5 +1,7 @@
 const reservationService = require("./reservations.service")
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary")
+const moment = require('moment-timezone')
+
 
 //MIDDLEWARE
 async function reservationExists(req, res, next){
@@ -48,7 +50,7 @@ function validateReservationTime(req, res, next){
   const reservationHourAndMinutes = data.reservation_time.split(":")
   const reservationHour = parseInt(reservationHourAndMinutes[0])
   const reservationMinute = parseInt(reservationHourAndMinutes[1])
-  const today = new Date()
+  const now = moment()
   if (isNaN(dateValidation)){
     next({
       status: 400,
@@ -59,12 +61,12 @@ function validateReservationTime(req, res, next){
       status: 400,
       message: `Please use valid time for reservation_time.`
     })
-  } else if (reservationDate.getUTCDay() === 2){
+  } else if (reservationDate.getDay() === 2){
     next({
       status: 400,
       message: `Restaurant is closed on Tuesdays.`
     })
-  } else if (today > reservationTime){
+  } else if (now > reservationTime){
     next({
       status: 400,
       message: `Reservations must be set to a future time and date.`
