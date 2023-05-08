@@ -41,18 +41,24 @@ function Dashboard({ date }) {
 
   return (
     <main>
-      <h1>Dashboard</h1>
-      <div className="d-md-flex mb-3">
-        <h4 className="mb-0">Reservations for {moment(date).format('dddd, MMMM Do YYYY')} </h4>
-        <div className="select-days-group">
-          <button type="button" className="btn btn-secondary" onClick={() => history.push(`/dashboard?date=${previous(date)}`)}>Previous</button>
-          <button type="button" className="btn btn-secondary" onClick={() => history.push(`/dashboard?date=${today(date)}`)}>Today</button>
-          <button type="button" className="btn btn-secondary" onClick={() => history.push(`/dashboard?date=${next(date)}`)}>Next</button>
+      <h1 className="text-center">Dashboard</h1>
+      <div className="text-center">
+        <h4 className="mb-1">{moment(date).format('dddd, MMMM Do YYYY')} </h4>
+      </div>
+      <div className="pb-2 d-flex justify-content-center">
+        <button type="button" className="btn btn-secondary dash-btn" onClick={() => history.push(`/dashboard?date=${previous(date)}`)}>Previous</button>
+        <button type="button" className="btn btn-secondary dash-btn" onClick={() => history.push(`/dashboard?date=${today(date)}`)}>Today</button>
+        <button type="button" className="btn btn-secondary dash-btn" onClick={() => history.push(`/dashboard?date=${next(date)}`)}>Next</button>
+      </div>
+      <div className="row justify-content-center">
+        <div className="col-md-5 mx-1">
+          <ErrorAlert error={reservationsError} />
+          <ReservationList reservations={reservations.filter((reservation) => {return reservation.status !== "finished"})} />
+        </div>
+        <div className="col-md-5 mx-1">
+          <TableList tables={tables} />
         </div>
       </div>
-      <ErrorAlert error={reservationsError} />
-      <ReservationList reservations={reservations.filter((reservation) => {return reservation.status !== "finished"})} />
-      <TableList tables={tables} />
     </main>
   );
 }

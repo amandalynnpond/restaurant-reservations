@@ -1,4 +1,71 @@
-.side-bar {
-  background-color: #393a44;
-  min-width: 200px;
+body {
+  background-color: #e8ebeb;
 }
+
+.side-bar {
+  background-color: #003D5B;
+  min-width: 200px;
+  padding-bottom: 10px;
+}
+
+.btn {
+  margin: 5px;
+}
+
+.btn-warning {
+  background-color: #EDAE49;
+  border-color: #EDAE49;
+  color: #003D5B;
+
+}
+
+.btn-secondary {
+  background-color: #003D5B;
+  border-color: #003D5B;
+  color: #f4f1de;
+}
+
+.reservation {
+  background-color: #f7f5f0;
+  text-align: center;
+}
+
+.table {
+  text-align: center;
+}
+
+/*change this color at some point*/
+.status-free {
+  color: green;
+}
+
+/*change this color at some point*/
+.status-occupied {
+  color: red;
+}
+
+
+@media only screen and (min-width: 768px) {
+
+  .side-bar {
+    background-color: #003D5B;
+    min-width: 250px;
+    height: 100dvh;
+    text-align: center;
+  }
+}
+
+
+
+
+/*
+- change navbar title font color
+- change background color for reservation cards
+- change background color for table cards
+- make navbar go ALL the way to bottom without any margin, regardless of page
+- pick a font for headings
+- pick a font for regular text
+
+
+
+*/

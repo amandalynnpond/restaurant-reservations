@@ -30,7 +30,7 @@ function ReservationCard({reservation}){
     }
 
     return(
-        <article className="border border-secondary rounded m-2 p-3 reservation">
+        <article className="border border-secondary rounded mt-2 p-3 reservation">
             <h4>{reservation.first_name} {reservation.last_name}</h4>
             {reservation.people} guests | {reservation.reservation_time}
             <div data-reservation-id-status={reservation.reservation_id}>Status: {reservation.status}</div>

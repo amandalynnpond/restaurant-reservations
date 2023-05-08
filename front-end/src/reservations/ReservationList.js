@@ -7,6 +7,7 @@ function ReservationList({reservations}){
 
     return (
         <div>
+            <h3 className="text-center">Reservations</h3>
             {reservationList}
         </div>
     )

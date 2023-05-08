@@ -4,7 +4,7 @@ import { clearTable } from "../utils/api";
 
 function TableCard({table}){
 
-    let status = "Free"
+    let status = <span className="status-free">Free</span>
     let button = <div></div>
     const history = useHistory()
 
@@ -19,12 +19,12 @@ function TableCard({table}){
     }
 
     if (table.reservation_id != null){
-        status = "Occupied"
+        status = <span className="status-occupied">Occupied</span>
         button = <button className="btn btn-info" data-table-id-finish={table.table_id} onClick={handleDelete}>Finish</button>
     }
 
     return(
-        <article className="border border-secondary rounded m-2 p-3">
+        <article className="border border-secondary rounded mt-2 p-3 table">
             <h4>{table.table_name}</h4>
             Capacity: {table.capacity}
             <div data-table-id-status={table.table_id}>

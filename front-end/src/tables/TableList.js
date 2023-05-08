@@ -7,7 +7,7 @@ function TableList({tables}){
 
     return (
         <div>
-            <h3>Tables</h3>
+            <h3 className="text-center">Tables</h3>
             {tableList}
         </div>
     )
