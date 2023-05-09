@@ -46,7 +46,7 @@ function SeatReservation(){
 
     return (
         <article>
-            <h4>Seat {reservation.first_name} {reservation.last_name}'s Reservation for {moment(reservation.reservation_date).format('dddd, MMMM Do YYYY')}</h4>
+            <h3 className="my-4">Seat {reservation.first_name} {reservation.last_name}'s Reservation for {moment(reservation.reservation_date).format('dddd, MMMM Do YYYY')}</h3>
             <div>Please select table:</div>
             <form onSubmit={handleSubmit}>
                 <select
@@ -68,8 +68,8 @@ function SeatReservation(){
                             </option> 
                         ))}
                 </select>
-                <button type="submit" className="btn btn-info">Submit</button>
-                <button type="button" className="btn btn-secondary" onClick={() => history.goBack()}>Cancel</button>
+                <button type="submit" className="btn btn-secondary">Submit</button>
+                <button type="button" className="btn btn-warning" onClick={() => history.goBack()}>Cancel</button>
             </form>
             <ErrorAlert error={error} />
         </article>
