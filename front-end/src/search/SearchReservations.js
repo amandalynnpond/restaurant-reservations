@@ -34,7 +34,7 @@ function SearchReservations(){
 
     return(
         <main>
-            <h4>Search for a reservation:</h4>
+            <h3 className="my-4">Search for a reservation:</h3>
             <form name="search" onSubmit={handleSubmit}>
                 <div className="form-group">
                     <label htmlFor="mobile_number">
@@ -51,7 +51,7 @@ function SearchReservations(){
                         >
                     </input>
                 </div>
-                <button type="submit" className="btn btn-info">Find</button>
+                <button type="submit" className="btn btn-secondary">Find</button>
             </form>
             {submitted ? results : ""}
         </main>

@@ -65,7 +65,7 @@ function EditReservation(){
 
     return(
         <main>
-            <h4 className="mb-0">Edit {reservation.first_name} {reservation.last_name}'s Reservation</h4>
+            <h3 className="my-4">Edit {reservation.first_name} {reservation.last_name}'s Reservation</h3>
             <ReservationForm handleChange={handleChange} handleSubmit={handleSubmit} formData={reservation} />
             <ErrorAlert error={error} />
         </main>
