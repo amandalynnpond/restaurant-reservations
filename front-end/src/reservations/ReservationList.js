@@ -10,7 +10,7 @@ function ReservationList({reservations}){
     }
 
     return (
-        <div className="mb-4">
+        <div className="pb-4">
             <h3 className="text-center">Reservations</h3>
             {reservationList}
         </div>
