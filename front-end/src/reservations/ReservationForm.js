@@ -8,7 +8,7 @@ function ReservationForm({ handleChange, handleSubmit, formData}){
     return (
         <form name="create" onSubmit={handleSubmit}>
               <div className="form-group">
-                <label htmlFor="first_name">
+                <label htmlFor="first_name" className="mr-3">
                     First Name
                     <input
                         id="first_name"
@@ -20,7 +20,7 @@ function ReservationForm({ handleChange, handleSubmit, formData}){
                         value={formData.first_name ?? ""}
                     />
                 </label>
-                <label htmlFor="last_name">
+                <label htmlFor="last_name" className="mr-3">
                     Last Name
                     <input
                         id="last_name"
@@ -32,7 +32,7 @@ function ReservationForm({ handleChange, handleSubmit, formData}){
                         value={formData.last_name ?? ""}
                     />
                 </label>
-                <label htmlFor="mobile_number">
+                <label htmlFor="mobile_number" className="mr-3">
                     Phone
                     <input
                         id="mobile_number"
@@ -46,7 +46,7 @@ function ReservationForm({ handleChange, handleSubmit, formData}){
                 </label>
               </div>
               <div className="form-group">
-                <label htmlFor="reservation_date">
+                <label htmlFor="reservation_date" className="mr-3">
                     Date
                     <input
                         id="reservation_date"
@@ -59,7 +59,7 @@ function ReservationForm({ handleChange, handleSubmit, formData}){
                         value={formData.reservation_date ?? ""}
                     />
                 </label>
-                <label htmlFor="reservation_time">
+                <label htmlFor="reservation_time" className="mr-3">
                     Time 
                     <input
                         id="reservation_time"
@@ -72,7 +72,7 @@ function ReservationForm({ handleChange, handleSubmit, formData}){
                         value={formData.reservation_time ?? ""}
                     />
                 </label>
-                <label htmlFor="people">
+                <label htmlFor="people" className="mr-3">
                   Number of Guests
                   <input 
                     id="people"
@@ -86,8 +86,8 @@ function ReservationForm({ handleChange, handleSubmit, formData}){
                 </label>
               </div>
               <div className="form-group">
-                <button type="submit" className="btn btn-info">Submit</button>
-                <button type="button" className="btn btn-secondary" onClick={() => history.goBack()}>Cancel</button>
+                <button type="submit" className="btn btn-secondary">Submit</button>
+                <button type="button" className="btn btn-warning" onClick={() => history.goBack()}>Cancel</button>
               </div>
             </form>
     )

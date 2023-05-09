@@ -12,7 +12,6 @@ function SearchReservations(){
 
     const handleChange = ({target}) => {
         setMobile_number(target.value)
-        console.log(mobile_number)
     }
 
     const handleSubmit = async (event) => {
@@ -22,7 +21,6 @@ function SearchReservations(){
         listReservations({ mobile_number }, abortController.signal)
             .then(setReservations)
             .catch(setReservationsError)
-            console.log("submitted:", mobile_number)
         return () => abortController.abort()
     }
 

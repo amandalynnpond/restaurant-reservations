@@ -44,7 +44,6 @@ function CreateNewReservation(){
   const handleSubmit = async (event) => {
     event.preventDefault();
     const day = new Date()
-    console.log(formData, day)
     const abortController = new AbortController();
     const reservationErrors = ReservationErrors(formData)
     if (reservationErrors.length){
@@ -62,7 +61,7 @@ function CreateNewReservation(){
   
     return (
       <main>
-          <h4 className="mb-0">Create New Reservation</h4>
+          <h3 className="my-4">Create New Reservation</h3>
             <ReservationForm handleChange={handleChange} handleSubmit={handleSubmit} formData={formData} />
             <ErrorAlert error={error} />
       </main>

@@ -45,8 +45,7 @@ function validateReservationTime(req, res, next){
   const { data = {} } = req.body
   const dateValidation = Date.parse(data.reservation_date)
   const timeValidation = data.reservation_time
-  const reservationDate = new Date(data.reservation_date)
-  const reservationTime = new Date(`${data.reservation_date}T${data.reservation_time}`)
+  const reservationDateAndTime = new Date(`${data.reservation_date}T${data.reservation_time}`)
   const reservationHourAndMinutes = data.reservation_time.split(":")
   const reservationHour = parseInt(reservationHourAndMinutes[0])
   const reservationMinute = parseInt(reservationHourAndMinutes[1])
@@ -61,12 +60,12 @@ function validateReservationTime(req, res, next){
       status: 400,
       message: `Please use valid time for reservation_time.`
     })
-  } else if (reservationDate.getDay() === 2){
+  } else if (reservationDateAndTime.getDay() === 2){
     next({
       status: 400,
       message: `Restaurant is closed on Tuesdays.`
     })
-  } else if (now > reservationTime){
+  } else if (now > reservationDateAndTime){
     next({
       status: 400,
       message: `Reservations must be set to a future time and date.`

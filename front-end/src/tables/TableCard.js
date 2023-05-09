@@ -20,16 +20,16 @@ function TableCard({table}){
 
     if (table.reservation_id != null){
         status = <span className="status-occupied">Occupied</span>
-        button = <button className="btn btn-info" data-table-id-finish={table.table_id} onClick={handleDelete}>Finish</button>
+        button = <button className="btn btn-warning" data-table-id-finish={table.table_id} onClick={handleDelete}>Finish</button>
     }
 
     return(
-        <article className="border border-secondary rounded mt-2 p-3 table">
+        <article className="mt-2 p-3 table">
             <h4>{table.table_name}</h4>
             Capacity: {table.capacity}
             <div data-table-id-status={table.table_id}>
             Status: {status}
-            {button}
+            <div>{button}</div>
             </div>
         </article>
     )

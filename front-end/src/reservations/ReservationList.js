@@ -3,7 +3,11 @@ import ReservationCard from "./ReservationCard"
 
 function ReservationList({reservations}){
 
-    const reservationList = reservations.map((reservation) => <ReservationCard key={reservation.reservation_id} reservation={reservation} />)
+    let reservationList = reservations.map((reservation) => <ReservationCard key={reservation.reservation_id} reservation={reservation} />)
+
+    if (reservations.length === 0){
+        reservationList = <div className="text-center">There are currently no reservations for today.</div>
+    }
 
     return (
         <div>

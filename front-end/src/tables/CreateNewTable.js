@@ -48,11 +48,10 @@ function CreateNewTable(){
 
     return(
         <main>
-        <h1>Dashboard</h1>
-          <h4 className="mb-0">Create New Table</h4>
+          <h3 className="my-4">Create New Table</h3>
             <form name="create" onSubmit={handleSubmit}>
               <div className="form-group">
-                <label htmlFor="table_name">
+                <label htmlFor="table_name" className="mr-3">
                     Table Name
                     <input
                         id="table_name"
@@ -64,7 +63,7 @@ function CreateNewTable(){
                         value={formData.table_name}
                     />
                 </label>
-                <label htmlFor="capacity">
+                <label htmlFor="capacity" className="mr-3">
                   Table Capacity
                   <input 
                     id="capacity"
@@ -79,8 +78,8 @@ function CreateNewTable(){
                 </label>
               </div>
               <div className="form-group">
-                <button type="submit" className="btn btn-info">Submit</button>
-                <button type="button" className="btn btn-secondary" onClick={() => history.goBack()}>Cancel</button>
+                <button type="submit" className="btn btn-secondary">Submit</button>
+                <button type="button" className="btn btn-warning" onClick={() => history.goBack()}>Cancel</button>
               </div>
             </form>
             <ErrorAlert error={error} />

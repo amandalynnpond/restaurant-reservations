@@ -1,5 +1,23 @@
+@import url("https://use.typekit.net/apu1vra.css");
+
 body {
-  background-color: #e8ebeb;
+  background-color: #e3e2dc;
+  font-family: "basic-sans", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+h1,h3 {
+  color: #003D5B;
+  font-family: "rig-solid-bold-reverse", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.periodic-tables {
+  font-family: "rig-solid-bold-fill", sans-serif;
+  font-weight: 700;
+  font-style: normal;
 }
 
 .side-bar {
@@ -22,26 +40,37 @@ body {
 .btn-secondary {
   background-color: #003D5B;
   border-color: #003D5B;
-  color: #f4f1de;
+  color: #e3e2dc;
+}
+
+.btn-secondary:hover {
+  background-color: #204152;
+  border-color: #204152;
+  color: #e3e2dc;
 }
 
 .reservation {
-  background-color: #f7f5f0;
+  background-color: #e6e5df;
   text-align: center;
+  border: 2px solid #003D5B;
+  border-radius: 10px;
 }
 
 .table {
+  background-color: #e6e5df;
   text-align: center;
+  border: 2px solid #003D5B;
+  border-radius: 10px;
 }
 
 /*change this color at some point*/
 .status-free {
-  color: green;
+  color: #308c0e;
 }
 
 /*change this color at some point*/
 .status-occupied {
-  color: red;
+  color: #c21206;
 }
 
 
@@ -53,6 +82,7 @@ body {
     height: 100dvh;
     text-align: center;
   }
+
 }
 
 

@@ -41,11 +41,11 @@ function Dashboard({ date }) {
 
   return (
     <main>
-      <h1 className="text-center">Dashboard</h1>
+      <h1 className="text-center mt-4">Dashboard</h1>
       <div className="text-center">
         <h4 className="mb-1">{moment(date).format('dddd, MMMM Do YYYY')} </h4>
       </div>
-      <div className="pb-2 d-flex justify-content-center">
+      <div className="pb-2 mb-5 d-flex justify-content-center">
         <button type="button" className="btn btn-secondary dash-btn" onClick={() => history.push(`/dashboard?date=${previous(date)}`)}>Previous</button>
         <button type="button" className="btn btn-secondary dash-btn" onClick={() => history.push(`/dashboard?date=${today(date)}`)}>Today</button>
         <button type="button" className="btn btn-secondary dash-btn" onClick={() => history.push(`/dashboard?date=${next(date)}`)}>Next</button>

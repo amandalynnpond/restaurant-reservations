@@ -16,12 +16,12 @@ function Menu() {
           className="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0"
           to="/"
         >
-          <div className="sidebar-brand-text mx-3">
-            <span>Periodic Tables</span>
+          <div className="sidebar-brand-text mx-3 mt-4">
+            <span className="periodic-tables">Periodic Tables</span>
           </div>
         </Link>
         <hr className="sidebar-divider my-0" />
-        <ul className="nav navbar-nav text-light list-group-horizontal justify-content-center" id="accordionSidebar">
+        <ul className="nav navbar-nav mt-3 text-light justify-content-center" id="accordionSidebar">
           <li className="nav-item mx-3">
             <Link className="nav-link" to="/dashboard">
               <span className="oi oi-dashboard" />
