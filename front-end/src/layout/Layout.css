@@ -14,18 +14,21 @@ h1,h3 {
   font-style: normal;
 }
 
+/* Restaurant Name */
 .periodic-tables {
   font-family: "rig-solid-bold-fill", sans-serif;
   font-weight: 700;
   font-style: normal;
 }
 
+/* Navigation */
 .side-bar {
   background-color: #003D5B;
   min-width: 200px;
   padding-bottom: 10px;
 }
 
+/* Buttons */
 .btn {
   margin: 5px;
 }
@@ -49,6 +52,7 @@ h1,h3 {
   color: #e3e2dc;
 }
 
+/* Cards */
 .reservation {
   background-color: #e6e5df;
   text-align: center;
@@ -63,19 +67,19 @@ h1,h3 {
   border-radius: 10px;
 }
 
-/*change this color at some point*/
+/* Colors based off of status of table */
 .status-free {
   color: #308c0e;
 }
 
-/*change this color at some point*/
 .status-occupied {
   color: #c21206;
 }
 
-
+/* Browser */
 @media only screen and (min-width: 768px) {
 
+  /* Navigation */
   .side-bar {
     background-color: #003D5B;
     min-width: 250px;
@@ -84,18 +88,3 @@ h1,h3 {
   }
 
 }
-
-
-
-
-/*
-- change navbar title font color
-- change background color for reservation cards
-- change background color for table cards
-- make navbar go ALL the way to bottom without any margin, regardless of page
-- pick a font for headings
-- pick a font for regular text
-
-
-
-*/

@@ -45,10 +45,11 @@ function EditReservation(){
         });
       }
     };
+
       const handleSubmit = async (event) => {
         event.preventDefault();
         const abortController = new AbortController();
-        const reservationErrors = ReservationErrors(reservation)
+        const reservationErrors = ReservationErrors(reservation);
         if (reservationErrors.length){
           setError(reservationErrors)
         } else {

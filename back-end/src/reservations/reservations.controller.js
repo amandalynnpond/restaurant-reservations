@@ -117,6 +117,7 @@ function validateUpdatedStatus(req, res, next){
   })
 }
 
+//SERVICES
 async function read(req, res, next){
   res.json({ data: res.locals.reservation })
 }

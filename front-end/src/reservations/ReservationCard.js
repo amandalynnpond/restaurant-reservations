@@ -1,10 +1,12 @@
 import React from "react"
 import { updateStatus } from "../utils/api"
 import { useHistory } from "react-router";
+import moment from "moment";
 
 function ReservationCard({reservation}){
 
     const reservation_id = reservation.reservation_id
+    const reservationDateAndTime = new Date(`${reservation.reservation_date}T${reservation.reservation_time}`)
     const history = useHistory()
 
     async function handleCancel() {
@@ -19,23 +21,23 @@ function ReservationCard({reservation}){
     return () => abortController.abort();
     }
 
-    let button = <div><a href={`/reservations/${reservation_id}/seat`}><button type="button" className="btn btn-secondary">Seat</button></a>
+    let seatButton = <div><a href={`/reservations/${reservation_id}/seat`}><button type="button" className="btn btn-secondary">Seat</button></a>
     <a href={`/reservations/${reservation_id}/edit`}><button type="button" className="btn btn-secondary">Edit</button></a>
     <button type="button" className="btn btn-warning" onClick={handleCancel} data-reservation-id-cancel={reservation.reservation_id}>Cancel</button>
     </div>
 
-
+    //hides seat button if reservation isn't booked
     if (reservation.status !== "booked"){
-        button = <div></div>
+        seatButton = <div></div>
     }
 
     return(
         <article className="mt-2 p-3 reservation">
             <h4>{reservation.first_name} {reservation.last_name}</h4>
-            {reservation.people} guests | {reservation.reservation_time}
+            {reservation.people} guests | {moment(reservationDateAndTime).format('h:mm a')}
             <div data-reservation-id-status={reservation.reservation_id} className="text-capitalize">Status: {reservation.status}</div>
             <div>
-                {button}
+                {seatButton}
             </div>
         </article>
     )

@@ -99,6 +99,7 @@ async function tableExists(req, res, next){
     return next()
   }
 
+  //SERVICES
   async function read(req, res, next){
     res.json({ data: res.locals.table })
   }
