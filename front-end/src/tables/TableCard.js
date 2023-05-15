@@ -2,9 +2,13 @@ import React from "react";
 import { useHistory } from "react-router";
 import { clearTable } from "../utils/api";
 
+//Displays table details
 function TableCard({table}){
 
+    //Default to Free status
     let status = <span className="status-free">Free</span>
+    
+    //Default no button appears on free table
     let button = <div></div>
     const history = useHistory()
 
@@ -18,6 +22,7 @@ function TableCard({table}){
         }
     }
 
+    //Add occupied button and finish table button if status is occupied
     if (table.reservation_id != null){
         status = <span className="status-occupied">Occupied</span>
         button = <button className="btn btn-warning" data-table-id-finish={table.table_id} onClick={handleDelete}>Finish</button>

@@ -1,6 +1,7 @@
 import React from "react";
 import TableCard from "./TableCard";
 
+//Lists out table cards for dashboard
 function TableList({tables}){
 
     const tableList = tables.map((table) => <TableCard key={table.table_id} table={table} />)

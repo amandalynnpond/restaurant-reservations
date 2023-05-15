@@ -1,6 +1,7 @@
 import React from "react";
 import ReservationCard from "./ReservationCard"
 
+//Lists out reservation cards for dashboard
 function ReservationList({reservations}){
 
     let reservationList = reservations.map((reservation) => <ReservationCard key={reservation.reservation_id} reservation={reservation} />)

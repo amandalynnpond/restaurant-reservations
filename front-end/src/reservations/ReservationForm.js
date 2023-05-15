@@ -1,6 +1,7 @@
 import React from "react";
 import { useHistory } from "react-router";
 
+//Reservation Form for both edit and create reservation
 function ReservationForm({ handleChange, handleSubmit, formData}){
 
     const history = useHistory()
@@ -36,7 +37,8 @@ function ReservationForm({ handleChange, handleSubmit, formData}){
                     Phone
                     <input
                         id="mobile_number"
-                        type="text"
+                        type="tel"
+                        pattern="[0-9-]*"
                         name="mobile_number"
                         placeholder="XXX-XXX-XXXX"
                         className="form-control"

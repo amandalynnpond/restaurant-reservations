@@ -4,6 +4,7 @@ import { createTable } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
 import TableErrors from "./TableErrors";
 
+//Create new table form
 function CreateNewTable(){
 
   const history = useHistory()

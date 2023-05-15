@@ -4,6 +4,7 @@ import { useParams, useHistory } from "react-router";
 import { listTables, readReservation, seatTable } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
 
+//Seat reservation to table
 function SeatReservation(){
 
     const [reservation, setReservation] = useState([])

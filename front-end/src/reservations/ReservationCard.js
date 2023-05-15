@@ -3,6 +3,7 @@ import { updateStatus } from "../utils/api"
 import { useHistory } from "react-router";
 import moment from "moment";
 
+//Displays each reservation details
 function ReservationCard({reservation}){
 
     const reservation_id = reservation.reservation_id
@@ -21,12 +22,13 @@ function ReservationCard({reservation}){
     return () => abortController.abort();
     }
 
+    //Seat button for booked reservations
     let seatButton = <div><a href={`/reservations/${reservation_id}/seat`}><button type="button" className="btn btn-secondary">Seat</button></a>
     <a href={`/reservations/${reservation_id}/edit`}><button type="button" className="btn btn-secondary">Edit</button></a>
     <button type="button" className="btn btn-warning" onClick={handleCancel} data-reservation-id-cancel={reservation.reservation_id}>Cancel</button>
     </div>
 
-    //hides seat button if reservation isn't booked
+    //Hides seat button if reservation status isn't booked
     if (reservation.status !== "booked"){
         seatButton = <div></div>
     }

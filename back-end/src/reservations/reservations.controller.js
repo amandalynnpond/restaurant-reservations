@@ -17,6 +17,7 @@ async function reservationExists(req, res, next){
   })
 }
 
+//Validates all inputs are included
 function bodyDataHas(propertyName){
   return function(req, res, next){
     const { data = {} } = req.body
@@ -30,6 +31,7 @@ function bodyDataHas(propertyName){
   }
 }
 
+//Validates number of guests is greater than zero and a number
 function validateNumberOfPeople(req, res, next){
   const { people } = req.body.data;
   if (!Number.isInteger(people) || people <= 0) {
@@ -41,6 +43,7 @@ function validateNumberOfPeople(req, res, next){
   return next()
 }
 
+//Validates reservation time is on open days in the future and in business hours
 function validateReservationTime(req, res, next){
   const { data = {} } = req.body
   const dateValidation = Date.parse(data.reservation_date)
@@ -84,6 +87,7 @@ function validateReservationTime(req, res, next){
   return next()
 }
 
+//Validates new reservations have status of "booked"
 function validateBookedStatus(req, res, next){
   const reservation = req.body.data
   if (reservation.status && reservation.status !== "booked"){
@@ -95,6 +99,7 @@ function validateBookedStatus(req, res, next){
   return next()
 }
 
+//Validates updating status
 function validateCurrentStatus(req, res, next){
   const reservation = res.locals.reservation
   if (reservation.status == "finished"){
@@ -106,6 +111,7 @@ function validateCurrentStatus(req, res, next){
   return next()
 }
 
+//Accepts only valid status options
 function validateUpdatedStatus(req, res, next){
   const { status } = req.body.data
   if (status === "finished" || status === "seated" || status === "booked" || status === "cancelled"){

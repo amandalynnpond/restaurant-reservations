@@ -29,6 +29,7 @@ async function tableExists(req, res, next){
     })
   }
 
+  //Validates all inputs are included
   function bodyDataHas(propertyName){
     return function(req, res, next){
       const { data = {} } = req.body
@@ -42,6 +43,7 @@ async function tableExists(req, res, next){
     }
   }
 
+  //Validates table length is not less than two characters
   function validateTableNameLength(req, res, next){
     const { data = {} } = req.body
     const tableName = data.table_name
@@ -54,6 +56,7 @@ async function tableExists(req, res, next){
     return next()
   }
 
+  //Validates capacity is a number and greater than 0
   function validateCapacity(req, res, next){
     const { capacity } = req.body.data;
     if (!Number.isInteger(capacity) || capacity <= 0) {
@@ -65,6 +68,7 @@ async function tableExists(req, res, next){
     return next()
   }
 
+  //Validates table can seat a reservation
   async function seatingReservationValidation(req, res, next){
     const { reservation_id } = req.body.data
     const table = res.locals.table
@@ -88,6 +92,7 @@ async function tableExists(req, res, next){
     return next()
   }
 
+  //Validates clearing a table
   function clearTableValidation(req, res, next){
     const table = res.locals.table
     if (table.reservation_id === null){
